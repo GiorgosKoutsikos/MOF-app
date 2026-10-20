@@ -1,6 +1,6 @@
 import sqlite3
 
-DB_NAME = "lon.db"
+DB_NAME = "mof.db"
 
 def get_connection():
     conn = sqlite3.connect(DB_NAME)
@@ -34,3 +34,20 @@ def init_db():
 
     conn.commit()
     conn.close()
+
+
+def add_patient(full_name, amka, phone):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("INSERT INTO patients(full_name, amka, phone) VALUES(?, ?, ?)", (full_name, amka, phone))
+
+    conn.commit()
+    conn.close()
+
+
+
+if __name__ == "__main__":
+    init_db()
+    add_patient("Γιώργος Παπαδόπουλος", "12345678901", "6900000000")
+    print("Ο ασθενής προστέθηκε επιτυχώς!")
