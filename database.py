@@ -13,24 +13,47 @@ def init_db():
     cursor.execute("PRAGMA foreign_keys = ON;")
 
     cursor.execute("""
-                  CREATE TABLE IF NOT EXISTS patients (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    full_name TEXT NOT NULL,
-                    amka TEXT UNIQUE NOT NULL,
-                    phone TEXT
-                  );
-                """)
+          CREATE TABLE IF NOT EXISTS patients (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            full_name TEXT NOT NULL,
+            amka TEXT UNIQUE NOT NULL,
+            phone TEXT
+        );
+    """)
 
     cursor.execute("""
-                  CREATE TABLE IF NOT EXISTS visits (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    patient_id INTEGER NOT NULL,
-                    visit_date TEXT NOT NULL,
-                    diagnosis TEXT NOT NULL,
-                    notes TEXT,
-                    FOREIGN KEY (patient_id) REFERENCES patients (id)
-                    );
-                """)
+          CREATE TABLE IF NOT EXISTS visits (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            patient_id INTEGER NOT NULL,
+            visit_date TEXT NOT NULL,
+            diagnosis TEXT NOT NULL,
+            notes TEXT,
+            FOREIGN KEY (patient_id) REFERENCES patients (id)
+        );
+    """)
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS staff (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            full_name TEXT NOT NULL,
+            specialty TEXT,
+            phone TEXT
+        );
+    """)
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS sessions (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            patient_id INTEGER NOT NULL,
+            staff_id INTEGER NOT NULL,
+            session_date TEXT NOT NULL,
+            pain_level INTEGER,
+            treatment TEXT,
+            notes TEXT,
+            FOREIGN KEY (patient_key) REFERENCES patients (id),
+            FOREIGN KEY (staff_id) REFERENCES staff (id),
+        );
+       """ )
 
 
     conn.commit()
@@ -76,17 +99,59 @@ def get_patients_visits(patient_id):
     conn.close()
     return visits
 
+def add_staff(full_name, specialty, phone):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("INSERT INTO staff(full_name, specialty, phone) VALUES (?, ?, ?)", (full_name, specialty, phone))
+
+    conn.commit()
+    conn.close()
+
+def get_all_staff():
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM staff ORDER BY full_name ASC")
+
+    staff = cursor.fetchall()
+    conn.close()
+    return staff
+
+def add_session(patient_id, staff_id, session_date, pain_level, treatment, notes=""):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("INSERT INTO sessions (patient_id, staff_id, session_date, pain_level, treatment, notes) VALUES (?, ?, ?, ?, ?, ?)",
+                  (patient_id, staff_id, session_date, pain_level, treatment, notes))
+
+    conn.commit()
+    conn.close()
+
+def get_patient_sessions(patient_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT sessions.*, staff.full_name AS therapist_name
+        FROM sessions
+        JOIN staff ON sessions.staff_id = staff.id
+        WHERE sessions.patient_id = ?
+        ORDER BY sessions.id DESC
+    """, (patient_id,))
+
+    sessions = cursor.fetchall()
+    conn.close()
+    return sessions
 
 if __name__ == "__main__":
     init_db()
 
-    # 1. Βρίσκουμε τον πρώτο ασθενή
-    patients = search_patient("")
-    if patients:
-        pid = patients[0]["id"]
+    # Δοκιμή προσθήκης προσωπικού
+    add_staff("Νίκος Οικονόμου", "Αθλητική Αποκατάσταση", "6911223344")
 
-        # 2. Φέρνουμε όλες τις επισκέψεις του
-        visits = get_patients_visits(pid)
-        print(f"Επισκέψεις για τον ασθενή {patients[0]['full_name']}:")
-        for v in visits:
-            print(dict(v))
+    # Προβολή όλου του προσωπικού
+    therapists = get_all_staff()
+    print("Λίστα Προσωπικού:")
+    for t in therapists:
+        print(dict(t))
