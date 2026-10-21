@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/static/style.css" />
+    <title>MOF Physio - Clinic Management System</title>
+  </head>
+  <body>
+    <!-- 1. Left Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="logo">
+        <span class="logo-icon">⚡</span>
+        MOF Physio
+      </div>
+
+      <nav class="nav-links">
+        <button
+          id="navDashboard"
+          class="nav-btn active"
+          onclick="switchView('dashboard')"
+        >
+          <span class="icon">📊</span>
+          Dashboard
+        </button>
+        <button
+          id="navPatients"
+          class="nav-btn"
+          onclick="switchView('patients')"
+        >
+          <span class="icon">👥</span>
+          Patients
+        </button>
+        <button class="nav-btn">
+          <span class="icon">📅</span>
+          Sessions
+        </button>
+        <button class="nav-btn">
+          <span class="icon">🩺</span>
+          Staff
+        </button>
+        <button class="nav-btn">
+          <span class="icon">⚙️</span>
+          Settings
+        </button>
+      </nav>
+    </aside>
+
+    <!-- 2. Main Content Area -->
+    <main class="main-content">
+      <!-- VIEW A: DASHBOARD / HOMEPAGE -->
+      <section id="viewDashboard">
+        <h1 class="header-title">Clinic Overview</h1>
+
+        <!-- KPI Cards Grid -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span class="stat-label">Total Patients</span>
+            <span class="stat-value" id="statPatientsCount">-</span>
+            <span class="stat-sub">Registered in database</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Today's Sessions</span>
+            <span class="stat-value">0</span>
+            <span class="stat-sub">Scheduled appointments</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Active Therapists</span>
+            <span class="stat-value">2</span>
+            <span class="stat-sub">Physiotherapy staff</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW B: PATIENTS MANAGEMENT -->
+      <section id="viewPatients" style="display: none">
+        <h1 class="header-title">Patients Management</h1>
+
+        <div class="search-bar">
+          <input
+            type="text"
+            id="searchInput"
+            class="search-input"
+            placeholder="Search by name or AMKA..."
+          />
+          <button class="primary-btn" onclick="searchPatients()">Search</button>
+        </div>
+
+        <div id="patientsContainer" class="cards-container"></div>
+      </section>
+    </main>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>
