@@ -50,10 +50,10 @@ def init_db():
             pain_level INTEGER,
             treatment TEXT,
             notes TEXT,
-            FOREIGN KEY (patient_key) REFERENCES patients (id),
-            FOREIGN KEY (staff_id) REFERENCES staff (id),
+            FOREIGN KEY (patient_id) REFERENCES patients (id),
+            FOREIGN KEY (staff_id) REFERENCES staff (id)
         );
-       """ )
+    """)
 
 
     conn.commit()
@@ -146,12 +146,3 @@ def get_patient_sessions(patient_id):
 
 if __name__ == "__main__":
     init_db()
-
-    # Δοκιμή προσθήκης προσωπικού
-    add_staff("Νίκος Οικονόμου", "Αθλητική Αποκατάσταση", "6911223344")
-
-    # Προβολή όλου του προσωπικού
-    therapists = get_all_staff()
-    print("Λίστα Προσωπικού:")
-    for t in therapists:
-        print(dict(t))
