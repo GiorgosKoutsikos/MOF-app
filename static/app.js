@@ -31,7 +31,7 @@ async function searchPatients() {
         card.innerHTML = `
             <div>
                 <div class="patient-name">${patient.full_name}</div>
-                <div class="patient-meta">AMKA: ${patient.amka} | Phone: ${patient.phone}</div>
+                <div class="patient-meta">Phone: ${patient.phone || '-'}</div>
             </div>
             <button class="action-btn" onclick="viewPatient(${patient.id}, '${patient.full_name}')">
                 View Record

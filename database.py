@@ -16,7 +16,6 @@ def init_db():
           CREATE TABLE IF NOT EXISTS patients (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             full_name TEXT NOT NULL,
-            amka TEXT UNIQUE NOT NULL,
             phone TEXT
         );
     """)
@@ -60,25 +59,34 @@ def init_db():
     conn.close()
 
 
-def add_patient(full_name, amka, phone):
+def add_patient(full_name: str, phone: str = ""):
     conn = get_connection()
     cursor = conn.cursor()
 
-    cursor.execute("INSERT INTO patients(full_name, amka, phone) VALUES(?, ?, ?)", (full_name, amka, phone))
+    cursor.execute("INSERT INTO patients(full_name, phone) VALUES(?, ?)", (full_name, phone))
 
     conn.commit()
+    new_id = cursor.lastrowid
     conn.close()
+    return new_id
 
-def search_patient(query):
+def search_patients(query: str = ""):
     conn = get_connection()
     cursor = conn.cursor()
 
-    search_term = f"%{query}%"
-    cursor.execute("SELECT * FROM patients WHERE full_name LIKE ? OR amka LIKE ?", (search_term, search_term))
+    if query:
+        search_term = f"%{query}%"
+        cursor.execute("SELECT id, full_name, phone FROM patients WHERE full_name LIKE ?", (search_term,))
+    else:
+        cursor.execute("SELECT id, full_name, phone FROM patients")
 
-    patients = cursor.fetchall()
+    rows = cursor.fetchall()
     conn.close()
-    return patients
+
+    return [
+        {"id": row[0], "full_name": row[1], "phone": row[2]}
+         for row in rows
+    ]
 
 def add_visit(patient_id, visit_date, diagnosis, notes=""):
     conn = get_connection()

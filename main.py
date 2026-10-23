@@ -19,5 +19,4 @@ def serve_home():
 #API endpoint for searching patients
 @app.get("/api/patients")
 def get_patients(q: str = ""):
-    results = database.search_patient(q)
-    return [dict(p) for p in results]
+    return database.search_patients(q)
