@@ -1,4 +1,4 @@
-// Function to fetch and render patients from the backend API
+//Function to fetch and render patients from the backend API
 async function searchPatients() {
   const input = document.getElementById('searchInput');
   const query = input ? input.value.trim() : '';
@@ -10,13 +10,13 @@ async function searchPatients() {
     );
     const patients = await response.json();
 
-    // Updating the statistics card on the Dashboard
+    //Updating the statistics card on the Dashboard
     const statCount = document.getElementById('statPatientsCount');
     if (statCount) {
       statCount.innerText = patients.length;
     }
 
-    // Clearing and displaying the patient list
+    //Clearing and displaying the patient list
     if (container) {
       container.innerHTML = '';
 
@@ -49,12 +49,12 @@ function viewPatient(id, name) {
   alert(`Selected Patient: ${name} (ID: ${id})`);
 }
 
-// Automatically load all patients on startup
+//Automatically load all patients on startup
 window.addEventListener('DOMContentLoaded', () => {
   searchPatients();
 });
 
-// Function to switch between Dashboard and Patients views
+//Function to switch between Dashboard and Patients views
 function switchView(viewName) {
   const dashboard = document.getElementById('viewDashboard');
   const patients = document.getElementById('viewPatients');
@@ -72,5 +72,55 @@ function switchView(viewName) {
     if (btnPatients) btnPatients.classList.add('active');
     if (btnDashboard) btnDashboard.classList.remove('active');
     searchPatients();
+  }
+}
+
+function openPatientModal() {
+  const dialog = document.getElementById('patientDialog');
+  if (dialog) {
+    dialog.showModal();
+  } else {
+    console.error("Δεν βρέθηκε στοιχείο με id 'patientDialog'");
+  }
+}
+
+function closePatientModal() {
+  const dialog = document.getElementById('patientDialog');
+  if (dialog) {
+    dialog.close();
+    document.getElementById('patientName').value = '';
+    document.getElementById('patientPhone').value = '';
+  }
+}
+
+async function savePatient() {
+  const name = document.getElementById('patientName').value.trim();
+  const phone = document.getElementById('patientPhone').value.trim();
+
+  if (!name) {
+    alert('Παρακαλώ εισάγετε όνομα!');
+    return;
+  }
+
+  try {
+    const response = await fetch('/api/patients', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        full_name: name,
+        phone: phone,
+      }),
+    });
+
+    if (response.ok) {
+      closePatientModal();
+      searchPatients();
+    } else {
+      alert('Σφάλμα κατά την αποθήκευση.');
+    }
+  } catch (error) {
+    console.error('Σφάλμα σύνδεσης:', error);
   }
 }
