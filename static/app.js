@@ -1,4 +1,6 @@
-//Function to fetch and render patients from the backend API
+/* PATIENT DATA FETCHING & RENDERING */
+
+//Fetch and render patients from the backend API based on search query
 async function searchPatients() {
   const input = document.getElementById('searchInput');
   const query = input ? input.value.trim() : '';
@@ -10,13 +12,13 @@ async function searchPatients() {
     );
     const patients = await response.json();
 
-    //Updating the statistics card on the Dashboard
+    //Update the statistics counter on the Dashboard
     const statCount = document.getElementById('statPatientsCount');
     if (statCount) {
       statCount.innerText = patients.length;
     }
 
-    //Clearing and displaying the patient list
+    //Clear and populate the patient list container
     if (container) {
       container.innerHTML = '';
 
@@ -45,6 +47,9 @@ async function searchPatients() {
   }
 }
 
+/* PATIENT CARD (VIEW MODAL) */
+
+//Fetch details for a specific patient and display them in the View Dialog
 async function viewPatient(id) {
   const res = await fetch(`/api/patients/${id}`);
   const patient = await res.json();
@@ -57,15 +62,14 @@ async function viewPatient(id) {
   document.getElementById('viewPatientDialog').showModal();
 }
 
+//Close the View Dialog
 document.getElementById('closeViewBtn').addEventListener('click', () => {
   document.getElementById('viewPatientDialog').close();
 });
 
-//Automatically load all patients on startup
-window.addEventListener('DOMContentLoaded', () => {
-  searchPatients();
-});
+/* EDIT PATIENT MODAL */
 
+//Open Edit Dialog pre-filled with data from the View Dialog
 document.getElementById('editPatientBtn').addEventListener('click', () => {
   document.getElementById('editPatientId').value =
     document.getElementById('viewPatientId').textContent;
@@ -80,11 +84,69 @@ document.getElementById('editPatientBtn').addEventListener('click', () => {
   document.getElementById('editPatientDialog').showModal();
 });
 
+//Close the Edit Dialog without saving changes
 document.getElementById('cancelEditBtn').addEventListener('click', () => {
   document.getElementById('editPatientDialog').close();
 });
 
-//Function to switch between Dashboard and Patients views
+/* NEW PATIENT MODAL (CREATE) */
+
+//Open modal for creating a new patient
+function openPatientModal() {
+  const dialog = document.getElementById('patientDialog');
+  if (dialog) {
+    dialog.showModal();
+  } else {
+    console.error("No item found with id 'patientDialog'");
+  }
+}
+
+//Close modal for creating a new patient and reset input fields
+function closePatientModal() {
+  const dialog = document.getElementById('patientDialog');
+  if (dialog) {
+    dialog.close();
+    document.getElementById('patientName').value = '';
+    document.getElementById('patientPhone').value = '';
+  }
+}
+
+//Submit and persist a new patient to the backend API
+async function savePatient() {
+  const name = document.getElementById('patientName').value.trim();
+  const phone = document.getElementById('patientPhone').value.trim();
+
+  if (!name) {
+    alert('Please enter a name!');
+    return;
+  }
+
+  try {
+    const response = await fetch('/api/patients', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        full_name: name,
+        phone: phone,
+      }),
+    });
+
+    if (response.ok) {
+      closePatientModal();
+      searchPatients();
+    } else {
+      alert('Error while saving');
+    }
+  } catch (error) {
+    console.error('Connection error:', error);
+  }
+}
+
+/* NAVIGATION & VIEW SWITCHING */
+
+//Switch visible container and navigation state between Dashboard and Patients
 function switchView(viewName) {
   const dashboard = document.getElementById('viewDashboard');
   const patients = document.getElementById('viewPatients');
@@ -105,52 +167,9 @@ function switchView(viewName) {
   }
 }
 
-function openPatientModal() {
-  const dialog = document.getElementById('patientDialog');
-  if (dialog) {
-    dialog.showModal();
-  } else {
-    console.error("Δεν βρέθηκε στοιχείο με id 'patientDialog'");
-  }
-}
+/* APPLICATION INITIALIZATION */
 
-function closePatientModal() {
-  const dialog = document.getElementById('patientDialog');
-  if (dialog) {
-    dialog.close();
-    document.getElementById('patientName').value = '';
-    document.getElementById('patientPhone').value = '';
-  }
-}
-
-async function savePatient() {
-  const name = document.getElementById('patientName').value.trim();
-  const phone = document.getElementById('patientPhone').value.trim();
-
-  if (!name) {
-    alert('Παρακαλώ εισάγετε όνομα!');
-    return;
-  }
-
-  try {
-    const response = await fetch('/api/patients', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        full_name: name,
-        phone: phone,
-      }),
-    });
-
-    if (response.ok) {
-      closePatientModal();
-      searchPatients();
-    } else {
-      alert('Σφάλμα κατά την αποθήκευση.');
-    }
-  } catch (error) {
-    console.error('Σφάλμα σύνδεσης:', error);
-  }
-}
+//Automatically load all patients on startup
+window.addEventListener('DOMContentLoaded', () => {
+  searchPatients();
+});
