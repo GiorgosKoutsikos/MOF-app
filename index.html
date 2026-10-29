@@ -217,6 +217,24 @@
               <span id="viewPatientPhone">-</span>
             </p>
           </div>
+          <button type="button" id="editPatientBtn">Edit</button>
+        </dialog>
+
+        <dialog id="editPatientDialog">
+          <h3>Edit Patient</h3>
+          <input type="hidden" id="editPatientId" />
+
+          <div>
+            <input type="text" id="editPatientName" placeholder="Full Name" />
+          </div>
+          <div>
+            <input type="text" id="editPatientPhone" placeholder="Phone" />
+          </div>
+
+          <div>
+            <button type="button" id="saveEditBtn">Save Changes</button>
+            <button type="button" id="cancelEditBtn">Cancel</button>
+          </div>
         </dialog>
       </section>
     </main>

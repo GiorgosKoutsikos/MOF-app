@@ -66,6 +66,24 @@ window.addEventListener('DOMContentLoaded', () => {
   searchPatients();
 });
 
+document.getElementById('editPatientBtn').addEventListener('click', () => {
+  document.getElementById('editPatientId').value =
+    document.getElementById('viewPatientId').textContent;
+
+  document.getElementById('editPatientName').value =
+    document.getElementById('viewPatientName').textContent;
+
+  document.getElementById('editPatientPhone').value =
+    document.getElementById('viewPatientPhone').textContent;
+
+  document.getElementById('viewPatientDialog').close();
+  document.getElementById('editPatientDialog').showModal();
+});
+
+document.getElementById('cancelEditBtn').addEventListener('click', () => {
+  document.getElementById('editPatientDialog').close();
+});
+
 //Function to switch between Dashboard and Patients views
 function switchView(viewName) {
   const dashboard = document.getElementById('viewDashboard');
