@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
@@ -34,3 +34,10 @@ def add_patient(patient: PatientCreate):
         "full_name": patient.full_name,
         "phone": patient.phone
     }
+
+@app.get("/api/patients/{patient_id}")
+def get_patient(patient_id: int):
+    patient = database.get_patient_by_id(patient_id)
+    if patient:
+        return patient
+    raise HTTPException(status_code=404, detail="Patient not found")

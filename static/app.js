@@ -45,9 +45,21 @@ async function searchPatients() {
   }
 }
 
-function viewPatient(id, name) {
-  alert(`Selected Patient: ${name} (ID: ${id})`);
+async function viewPatient(id) {
+  const res = await fetch(`/api/patients/${id}`);
+  const patient = await res.json();
+
+  document.getElementById('viewPatientId').textContent = patient.id;
+  document.getElementById('viewPatientName').textContent = patient.full_name;
+  document.getElementById('viewPatientPhone').textContent =
+    patient.phone || '-';
+
+  document.getElementById('viewPatientDialog').showModal();
 }
+
+document.getElementById('closeViewBtn').addEventListener('click', () => {
+  document.getElementById('viewPatientDialog').close();
+});
 
 //Automatically load all patients on startup
 window.addEventListener('DOMContentLoaded', () => {

@@ -152,5 +152,18 @@ def get_patient_sessions(patient_id):
     conn.close()
     return sessions
 
+def get_patient_by_id(patient_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT id, full_name, phone FROM patients WHERE id = ?", (patient_id,))
+
+    patient = cursor.fetchone()
+    conn.close()
+
+    if patient:
+        return patient
+    return None
+
 if __name__ == "__main__":
     init_db()
