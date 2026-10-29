@@ -165,5 +165,14 @@ def get_patient_by_id(patient_id):
         return patient
     return None
 
+def update_patient(patient_id: int, full_name: str, phone: str):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("UPDATE PATIENTS SET full_name = ?, phone = ? WHERE id = ?", (full_name, phone, patient_id))
+
+    conn.commit()
+    conn.close()
+
 if __name__ == "__main__":
     init_db()

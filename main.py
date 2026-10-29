@@ -41,3 +41,12 @@ def get_patient(patient_id: int):
     if patient:
         return patient
     raise HTTPException(status_code=404, detail="Patient not found")
+
+class PatientUpdate(BaseModel):
+    full_name: str
+    phone: str
+
+@app.put("/api/patients/{patient_id}")
+def update_patient_endpoint(patient_id: int, patient_data: PatientUpdate):
+    database.update_patient(patient_id, patient_data.full_name, patient_data.phone)
+    return {"message": "Patient updated successfully"}

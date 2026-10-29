@@ -89,6 +89,42 @@ document.getElementById('cancelEditBtn').addEventListener('click', () => {
   document.getElementById('editPatientDialog').close();
 });
 
+async function saveEditedPatient() {
+  const id = document.getElementById('editPatientId').value;
+  const name = document.getElementById('editPatientName').value.trim();
+  const phone = document.getElementById('editPatientPhone').value.trim();
+  const nameError = document.getElementById('editNameError');
+
+  if (!name) {
+    nameError.textContent = 'Please give name';
+    nameError.style.display = 'block';
+    return;
+  } else {
+    nameError.style.display = 'none';
+  }
+
+  try {
+    const res = await fetch(`/api/patients/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ full_name: name, phone: phone }),
+    });
+
+    if (res.ok) {
+      document.getElementById('editPatientDialog').close();
+      searchPatients();
+    }
+  } catch (error) {
+    console.error('error updating patient:', error);
+  }
+}
+
+document
+  .getElementById('saveEditBtn')
+  .addEventListener('click', saveEditedPatient);
+
 /* NEW PATIENT MODAL (CREATE) */
 
 //Open modal for creating a new patient
@@ -127,10 +163,7 @@ async function savePatient() {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        full_name: name,
-        phone: phone,
-      }),
+      body: JSON.stringify({ full_name: name, phone: phone }),
     });
 
     if (response.ok) {
