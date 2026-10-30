@@ -35,7 +35,7 @@ async function searchPatients() {
                 <div class="patient-name">${patient.full_name}</div>
                 <div class="patient-meta">Phone: ${patient.phone || '-'}</div>
             </div>
-            <button class="action-btn" onclick="viewPatient(${patient.id}, '${patient.full_name}')">
+            <button class="action-btn" onclick="viewPatient(${patient.id})">
                 View Record
             </button>
         `;
@@ -59,6 +59,8 @@ async function viewPatient(id) {
   document.getElementById('viewPatientPhone').textContent =
     patient.phone || '-';
 
+  document.getElementById('deletePatientBtn').onclick = () =>
+    deletePatient(patient.id);
   document.getElementById('viewPatientDialog').showModal();
 }
 
@@ -174,6 +176,24 @@ async function savePatient() {
     }
   } catch (error) {
     console.error('Connection error:', error);
+  }
+}
+
+async function deletePatient(id) {
+  const confirmed = confirm('You want to delete this patient? ');
+  if (!confirmed) return;
+
+  try {
+    const resp = await fetch(`/api/patients/${id}`, {
+      method: 'DELETE',
+    });
+
+    if (resp.ok) {
+      document.getElementById('viewPatientDialog').close();
+      searchPatients();
+    }
+  } catch (error) {
+    console.error('Error deleting patient:', error);
   }
 }
 

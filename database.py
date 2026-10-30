@@ -174,5 +174,14 @@ def update_patient(patient_id: int, full_name: str, phone: str):
     conn.commit()
     conn.close()
 
+def delete_patient(patient_id: int):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("DELETE FROM patients WHERE id = ?", (patient_id,))
+
+    conn.commit()
+    conn.close()
+
 if __name__ == "__main__":
     init_db()
