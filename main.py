@@ -55,3 +55,17 @@ def update_patient_endpoint(patient_id: int, patient_data: PatientUpdate):
 def delete_patient(patient_id: int):
     database.delete_patient(patient_id)
     return {"message": "Patient deleted successfully"}
+
+@app.get("/api/patients/{patient_id}/visits")
+def get_patient_visits(patient_id: int):
+    return database.get_patients_visits(patient_id)
+
+class VisitCreate(BaseModel):
+    visit_date: str
+    diagnosis: str
+    notes: str = ""
+
+@app.post("/api/patients/{patient_id}/visits")
+def add_visit(patient_id: int, visit: VisitCreate):
+    database.add_visit(patient_id, visit.visit_date, visit.diagnosis, visit.notes)
+    return {"message": "Patient visit added succesfully"}

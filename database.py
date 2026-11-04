@@ -103,9 +103,18 @@ def get_patients_visits(patient_id):
 
     cursor.execute("SELECT * FROM visits WHERE patient_id = ? ORDER BY id DESC", (patient_id,))
 
-    visits = cursor.fetchall()
+    rows = cursor.fetchall()
     conn.close()
-    return visits
+    return [
+        {
+            "id": row[0],
+            "patient_id": row[1],
+            "visit_date": row[2],
+            "diagnosis": row[3],
+            "notes": row[4],
+        }
+        for row in rows
+    ]
 
 def add_staff(full_name, specialty, phone):
     conn = get_connection()
