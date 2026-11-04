@@ -334,6 +334,11 @@ body {
   margin: auto;
 }
 
+#viewPatientDialog input {
+  margin-right: 6px;
+  padding: 4px 8px;
+}
+
 #viewPatientDialog::backdrop {
   background: rgba(0, 0, 0, 0.4);
 }
@@ -451,4 +456,102 @@ body {
 
 #deletePatientBtn:active {
   transform: scale(0.97);
+}
+
+/* VISITS SECTION & HISTORY STYLES */
+
+/* 1. New visit submission form */
+.visit-form {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 8px;
+  margin-bottom: 14px;
+}
+
+/* Input fields (Date, Diagnosis, Notes) */
+.visit-form input {
+  padding: 6px 10px;
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  color: #1e293b;
+  font-size: 0.85rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.visit-form input:focus {
+  border-color: #2563eb;
+}
+
+/* Input width proportions */
+.visit-form input[type='date'] {
+  width: 130px;
+}
+
+#visitDiagnosis {
+  flex: 1;
+}
+
+#visitNotes {
+  flex: 1.5;
+}
+
+/* visit button */
+#addVisitBtn {
+  padding: 6px 14px;
+  background-color: #0284c7;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background-color 0.2s,
+    transform 0.1s;
+}
+
+#addVisitBtn:hover {
+  background-color: #0369a1;
+}
+
+#addVisitBtn:active {
+  transform: scale(0.98);
+}
+
+/* 2. Visits list container */
+#visitsList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 250px;
+  overflow-y: auto;
+  margin-top: 10px;
+  margin-bottom: 16px;
+  padding-right: 4px;
+}
+
+/* 3. Individual visit card */
+.visit-card {
+  background-color: #1e293b;
+  border-left: 4px solid #38bdf8;
+  border-radius: 6px;
+  padding: 10px 14px;
+  color: #f8fafc;
+  font-size: 0.9rem;
+}
+
+.visit-card div {
+  margin-bottom: 4px;
+}
+
+.visit-card div:last-child {
+  margin-bottom: 0;
+}
+
+.visit-card strong {
+  color: #94a3b8;
 }

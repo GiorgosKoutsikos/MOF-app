@@ -3,3 +3,4 @@ __pycache__/
 mof.db
 venv/
 .venv/
+.env

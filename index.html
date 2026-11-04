@@ -218,10 +218,18 @@
               <span id="viewPatientPhone">-</span>
             </p>
           </div>
+
+          <h4>Visits History</h4>
+          <div class="visit-form">
+            <input type="date" id="visitDate" />
+            <input type="text" id="visitDiagnosis" placeholder="Diagnosis" />
+            <input type="text" id="visitNotes" placeholder="Notes" />
+            <button type="button" id="addVisitBtn">Add visit</button>
+          </div>
+          <div id="visitsList"></div>
+
           <button type="button" id="editPatientBtn">Edit</button>
-          <button type="button" id="deletePatientBtn" onclick="DeletePatient()">
-            Delete
-          </button>
+          <button type="button" id="deletePatientBtn">Delete</button>
         </dialog>
 
         <dialog id="editPatientDialog">

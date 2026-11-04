@@ -62,6 +62,10 @@ async function viewPatient(id) {
   document.getElementById('deletePatientBtn').onclick = () =>
     deletePatient(patient.id);
   document.getElementById('viewPatientDialog').showModal();
+
+  loadVisits(patient.id);
+
+  document.getElementById('addVisitBtn').onclick = () => addVisit(patient.id);
 }
 
 //Close the View Dialog
@@ -126,6 +130,29 @@ async function saveEditedPatient() {
 document
   .getElementById('saveEditBtn')
   .addEventListener('click', saveEditedPatient);
+
+async function loadVisits(patientId) {
+  const res = await fetch(`/api/patients/${patientId}/visits`);
+  const visits = await res.json();
+
+  const container = document.getElementById('visitsList');
+  container.innerHTML = '';
+  if (visits.length === 0) {
+    container.innerHTML = '<p>No visits recorded yet</p>';
+  } else {
+    visits.forEach((visit) => {
+      const item = document.createElement('div');
+      item.className = 'visit-card';
+
+      item.innerHTML = `
+          <div><strong>Date:</strong> ${visit.visit_date}</div>
+          <div><strong>Diagnosis:</strong> ${visit.diagnosis}</div>
+          <div><strong>Notes:</strong> ${visit.notes || '-'}</div>
+      `;
+      container.appendChild(item);
+    });
+  }
+}
 
 /* NEW PATIENT MODAL (CREATE) */
 
@@ -194,6 +221,29 @@ async function deletePatient(id) {
     }
   } catch (error) {
     console.error('Error deleting patient:', error);
+  }
+}
+
+async function addVisit(patientId) {
+  const visit_date = document.getElementById('visitDate').value;
+  const diagnosis = document.getElementById('visitDiagnosis').value;
+  const notes = document.getElementById('visitNotes').value;
+
+  try {
+    const resp = await fetch(`/api/patients/${patientId}/visits`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ visit_date, diagnosis, notes }),
+    });
+    if (resp.ok) {
+      document.getElementById('visitDate').value = '';
+      document.getElementById('visitDiagnosis').value = '';
+      document.getElementById('visitNotes').value = '';
+
+      loadVisits(patientId);
+    }
+  } catch (error) {
+    console.error('Error adding visit:', error);
   }
 }
 
