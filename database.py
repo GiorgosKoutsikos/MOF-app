@@ -46,6 +46,7 @@ def init_db():
             patient_id INTEGER NOT NULL,
             staff_id INTEGER NOT NULL,
             session_date TEXT NOT NULL,
+            session_time TEXT,
             pain_level INTEGER,
             treatment TEXT,
             notes TEXT,
@@ -135,12 +136,12 @@ def get_all_staff():
     conn.close()
     return staff
 
-def add_session(patient_id, staff_id, session_date, pain_level, treatment, notes=""):
+def add_session(patient_id, staff_id, session_date, session_time, pain_level, treatment, notes=""):
     conn = get_connection()
     cursor = conn.cursor()
 
-    cursor.execute("INSERT INTO sessions (patient_id, staff_id, session_date, pain_level, treatment, notes) VALUES (?, ?, ?, ?, ?, ?)",
-                  (patient_id, staff_id, session_date, pain_level, treatment, notes))
+    cursor.execute("INSERT INTO sessions (patient_id, staff_id, session_date, session_time, pain_level, treatment, notes) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                  (patient_id, staff_id, session_date, session_time, pain_level, treatment, notes))
 
     conn.commit()
     conn.close()
@@ -202,6 +203,29 @@ def delete_visit(visit_id):
     result = cursor.rowcount > 0
     conn.close()
     return result
+
+def get_sessions():
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+            SELECT
+                sessions.id,
+                sessions.session_date,
+                sessions.session_time,
+                sessions.pain_level,
+                sessions.treatment,
+                sessions.notes,
+                patients.full_name AS patient_name
+                staff.full_name AS therapist_name
+            FROM sessions
+            JOIN patients ON sessions.patient_id = patients.id
+            JOIN staff ON sessions.staff_id = staff.id
+            ORDER BY sessions.session_date DESC, sessions.session_time DESC
+        """)
+    rows = cursor.fetchall()
+    conn.close()
+    return [dict(row) for row in rows]
 
 if __name__ == "__main__":
     init_db()
