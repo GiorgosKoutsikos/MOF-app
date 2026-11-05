@@ -148,12 +148,27 @@ async function loadVisits(patientId) {
           <div><strong>Date:</strong> ${visit.visit_date}</div>
           <div><strong>Diagnosis:</strong> ${visit.diagnosis}</div>
           <div><strong>Notes:</strong> ${visit.notes || '-'}</div>
+          <button type="button" class="delete-visit-btn" onclick="deleteVisit(${visit.id}, ${patientId})">Delete</button>
       `;
       container.appendChild(item);
     });
   }
 }
 
+async function deleteVisit(visitId, patientId) {
+  const confirmed = confirm('Are you sure you want to delete this visit?');
+  if (!confirmed) return;
+
+  const res = await fetch(`/api/visits/${visitId}`, {
+    method: 'DELETE',
+  });
+
+  if (res.ok) {
+    loadVisits(patientId);
+  } else {
+    alert('Failed to delete visit.');
+  }
+}
 /* NEW PATIENT MODAL (CREATE) */
 
 //Open modal for creating a new patient
