@@ -69,3 +69,10 @@ class VisitCreate(BaseModel):
 def add_visit(patient_id: int, visit: VisitCreate):
     database.add_visit(patient_id, visit.visit_date, visit.diagnosis, visit.notes)
     return {"message": "Patient visit added succesfully"}
+
+@app.delete("/api/visits/{visit_id}")
+def delete_visit(visit_id: int):
+    result = database.delete_visit(visit_id)
+    if not result:
+        raise HTTPException(status_code=404, detail="Visit not found")
+    return {"message": "Patient visit deleted successfully"}

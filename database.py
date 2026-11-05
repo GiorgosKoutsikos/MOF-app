@@ -192,5 +192,16 @@ def delete_patient(patient_id: int):
     conn.commit()
     conn.close()
 
+def delete_visit(visit_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("DELETE FROM visits WHERE id = ?", (visit_id,))
+
+    conn.commit()
+    result = cursor.rowcount > 0
+    conn.close()
+    return result
+
 if __name__ == "__main__":
     init_db()
