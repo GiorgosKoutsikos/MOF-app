@@ -12,7 +12,7 @@ async function searchPatients() {
     );
     const patients = await response.json();
 
-    //Update the statistics counter on the Dashboard
+    //Update the statistics counter on the Dashboard(patients)
     const statCount = document.getElementById('statPatientsCount');
     if (statCount) {
       statCount.innerText = patients.length;
@@ -270,18 +270,32 @@ function switchView(viewName) {
   const patients = document.getElementById('viewPatients');
   const btnDashboard = document.getElementById('navDashboard');
   const btnPatients = document.getElementById('navPatients');
+  const staff = document.getElementById('viewStaff');
+  const btnStaff = document.getElementById('navStaff');
 
   if (viewName === 'dashboard') {
     if (dashboard) dashboard.style.display = 'block';
     if (patients) patients.style.display = 'none';
     if (btnDashboard) btnDashboard.classList.add('active');
     if (btnPatients) btnPatients.classList.remove('active');
+    if (staff) staff.style.display = 'none';
+    if (btnStaff) btnStaff.classList.remove('active');
   } else if (viewName === 'patients') {
     if (dashboard) dashboard.style.display = 'none';
     if (patients) patients.style.display = 'block';
     if (btnPatients) btnPatients.classList.add('active');
     if (btnDashboard) btnDashboard.classList.remove('active');
+    if (staff) staff.style.display = 'none';
+    if (btnStaff) btnStaff.classList.remove('active');
     searchPatients();
+  } else if (viewName === 'staff') {
+    if (dashboard) dashboard.style.display = 'none';
+    if (patients) patients.style.display = 'none';
+    if (staff) staff.style.display = 'block';
+    if (btnDashboard) btnDashboard.classList.remove('active');
+    if (btnPatients) btnPatients.classList.remove('active');
+    if (btnStaff) btnStaff.classList.add('active');
+    loadStaff();
   }
 }
 
@@ -290,4 +304,50 @@ function switchView(viewName) {
 //Automatically load all patients on startup
 window.addEventListener('DOMContentLoaded', () => {
   searchPatients();
+});
+
+/* STAFF MANAGEMENT */
+
+async function loadStaff() {
+  const container = document.getElementById('staffContainer');
+
+  try {
+    const response = await fetch('/api/staff');
+    const staffList = await response.json();
+
+    //Update the statistics counter on the dashboard(staff)
+    const statStaff = document.getElementById('statStaffCount');
+    if (statStaff) {
+      statStaff.innerText = staffList.length;
+    }
+
+    //Clear and populate the staff list container
+    if (container) {
+      container.innerHTML = '';
+
+      if (staffList.length === 0) {
+        container.innerHTML = `<p style="color: #64748b; padding: 12px;">No staff members found.</p>`;
+        return;
+      }
+
+      staffList.forEach((staff) => {
+        const card = document.createElement('div');
+        card.className = 'patient-card';
+        card.innerHTML = `
+          <div>
+            <div class="patient-name">${staff.full_name}</div>
+            <div class="patient-meta">Specialty: ${staff.specialty || '-'} | Phone: ${staff.phone || '-'}</div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+  } catch (error) {
+    console.error('Error fetching staff:', error);
+  }
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  searchPatients();
+  loadStaff(); //Updates statStaffCount
 });

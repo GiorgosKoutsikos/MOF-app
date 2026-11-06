@@ -76,3 +76,7 @@ def delete_visit(visit_id: int):
     if not result:
         raise HTTPException(status_code=404, detail="Visit not found")
     return {"message": "Patient visit deleted successfully"}
+
+@app.get("/api/staff")
+def get_staff():
+    return [dict(s) for s in database.get_all_staff()]

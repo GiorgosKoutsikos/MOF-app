@@ -32,7 +32,7 @@
           <span class="icon">👥</span>
           Patients
         </button>
-        <button class="nav-btn">
+        <button id="navStaff" class="nav-btn" onclick="switchView('staff')">
           <span class="icon">🩺</span>
           Staff
         </button>
@@ -53,7 +53,7 @@
         <div class="stats-grid">
           <div class="stat-card">
             <span class="stat-label">Total Patients</span>
-            <span class="stat-value" id="statPatientsCount">-</span>
+            <span class="stat-value" id="statPatientsCount"></span>
             <span class="stat-sub">Registered in database</span>
           </div>
           <div class="stat-card">
@@ -63,7 +63,7 @@
           </div>
           <div class="stat-card">
             <span class="stat-label">Active Therapists</span>
-            <span class="stat-value">2</span>
+            <span class="stat-value" id="statStaffCount"></span>
             <span class="stat-sub">Physiotherapy staff</span>
           </div>
         </div>
@@ -248,6 +248,12 @@
             <button type="button" id="cancelEditBtn">Cancel</button>
           </div>
         </dialog>
+      </section>
+
+      <!-- VIEW C: STAFF MANAGEMENT -->
+      <section id="viewStaff" style="display: none">
+        <h1 class="header-title">Staff Management</h1>
+        <div id="staffContainer" class="cards-container"></div>
       </section>
     </main>
 
