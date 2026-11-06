@@ -144,7 +144,9 @@ def add_session(patient_id, staff_id, session_date, session_time, pain_level, tr
                   (patient_id, staff_id, session_date, session_time, pain_level, treatment, notes))
 
     conn.commit()
+    new_id = cursor.lastrowid
     conn.close()
+    return new_id
 
 def get_patient_sessions(patient_id):
     conn = get_connection()
