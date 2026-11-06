@@ -76,32 +76,3 @@ def delete_visit(visit_id: int):
     if not result:
         raise HTTPException(status_code=404, detail="Visit not found")
     return {"message": "Patient visit deleted successfully"}
-
-class SessionCreate(BaseModel):
-    patient_id: int
-    staff_id: int
-    session_date: str
-    session_time: str
-    pain_level: int
-    treatment: str
-    notes: str = ""
-
-@app.post("/api/sessions")
-def create_session(session: SessionCreate):
-    new_id = database.add_session(
-        session.patient_id,
-        session.staff_id,
-        session.session_date,
-        session.session_time,
-        session.pain_level,
-        session.treatment,
-        session.notes
-    )
-    return {
-        "id": new_id,
-        "message": "Session created successfully"
-    }
-
-@app.get("/api/sessions")
-def get_sessions():
-    return database.get_sessions()

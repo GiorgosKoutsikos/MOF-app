@@ -40,22 +40,6 @@ def init_db():
         );
     """)
 
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS sessions (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            patient_id INTEGER NOT NULL,
-            staff_id INTEGER NOT NULL,
-            session_date TEXT NOT NULL,
-            session_time TEXT,
-            pain_level INTEGER,
-            treatment TEXT,
-            notes TEXT,
-            FOREIGN KEY (patient_id) REFERENCES patients (id),
-            FOREIGN KEY (staff_id) REFERENCES staff (id)
-        );
-    """)
-
-
     conn.commit()
     conn.close()
 
@@ -136,34 +120,6 @@ def get_all_staff():
     conn.close()
     return staff
 
-def add_session(patient_id, staff_id, session_date, session_time, pain_level, treatment, notes=""):
-    conn = get_connection()
-    cursor = conn.cursor()
-
-    cursor.execute("INSERT INTO sessions (patient_id, staff_id, session_date, session_time, pain_level, treatment, notes) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                  (patient_id, staff_id, session_date, session_time, pain_level, treatment, notes))
-
-    conn.commit()
-    new_id = cursor.lastrowid
-    conn.close()
-    return new_id
-
-def get_patient_sessions(patient_id):
-    conn = get_connection()
-    cursor = conn.cursor()
-
-    cursor.execute("""
-        SELECT sessions.*, staff.full_name AS therapist_name
-        FROM sessions
-        JOIN staff ON sessions.staff_id = staff.id
-        WHERE sessions.patient_id = ?
-        ORDER BY sessions.id DESC
-    """, (patient_id,))
-
-    sessions = cursor.fetchall()
-    conn.close()
-    return sessions
-
 def get_patient_by_id(patient_id):
     conn = get_connection()
     cursor = conn.cursor()
@@ -205,29 +161,6 @@ def delete_visit(visit_id):
     result = cursor.rowcount > 0
     conn.close()
     return result
-
-def get_sessions():
-    conn = get_connection()
-    cursor = conn.cursor()
-
-    cursor.execute("""
-            SELECT
-                sessions.id,
-                sessions.session_date,
-                sessions.session_time,
-                sessions.pain_level,
-                sessions.treatment,
-                sessions.notes,
-                patients.full_name AS patient_name
-                staff.full_name AS therapist_name
-            FROM sessions
-            JOIN patients ON sessions.patient_id = patients.id
-            JOIN staff ON sessions.staff_id = staff.id
-            ORDER BY sessions.session_date DESC, sessions.session_time DESC
-        """)
-    rows = cursor.fetchall()
-    conn.close()
-    return [dict(row) for row in rows]
 
 if __name__ == "__main__":
     init_db()
