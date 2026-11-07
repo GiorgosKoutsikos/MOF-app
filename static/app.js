@@ -352,7 +352,7 @@ function openStaffModal() {
   if (dialog) {
     dialog.showModal();
   } else {
-    console.error("No item found with id 'patientDialog'");
+    console.error("No item found with id 'staffDialog'");
   }
 }
 
@@ -392,7 +392,7 @@ async function saveStaff() {
     }),
   });
   if (resp.ok) {
-    closeStaffModal.close();
+    closeStaffModal();
     loadStaff();
   }
 }
