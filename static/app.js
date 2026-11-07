@@ -347,6 +347,56 @@ async function loadStaff() {
   }
 }
 
+function openStaffModal() {
+  const dialog = document.getElementById('staffDialog');
+  if (dialog) {
+    dialog.showModal();
+  } else {
+    console.error("No item found with id 'patientDialog'");
+  }
+}
+
+function closeStaffModal() {
+  const dialog = document.getElementById('staffDialog');
+  if (dialog) {
+    dialog.close();
+    document.getElementById('staffName').value = '';
+    document.getElementById('staffSpecialty').value = '';
+    document.getElementById('staffPhone').value = '';
+  }
+}
+
+async function saveStaff() {
+  const name = document.getElementById('staffName').value.trim();
+  const specialty = document.getElementById('staffSpecialty').value.trim();
+  const phone = document.getElementById('staffPhone').value.trim();
+  const nameError = document.getElementById('staffNameError');
+
+  if (!name) {
+    if (nameError) {
+      nameError.textContent = 'Please give name';
+      nameError.style.display = 'block';
+    }
+    return;
+  } else {
+    if (nameError) nameError.style.display = 'none';
+  }
+
+  const resp = await fetch('/api/staff', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      full_name: name,
+      specialty: specialty,
+      phone: phone,
+    }),
+  });
+  if (resp.ok) {
+    closeStaffModal.close();
+    loadStaff();
+  }
+}
+
 window.addEventListener('DOMContentLoaded', () => {
   searchPatients();
   loadStaff(); //Updates statStaffCount

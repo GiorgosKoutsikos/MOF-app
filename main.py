@@ -80,3 +80,13 @@ def delete_visit(visit_id: int):
 @app.get("/api/staff")
 def get_staff():
     return [dict(s) for s in database.get_all_staff()]
+
+class StaffCreate(BaseModel):
+    full_name: str
+    specialty: str
+    phone: str = ""
+
+@app.post("/api/staff")
+def add_staff(staff: StaffCreate):
+    database.add_staff(staff.full_name, staff.specialty, staff.phone)
+    return {"message": "Staff added successfully"}

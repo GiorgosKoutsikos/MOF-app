@@ -253,8 +253,26 @@
       <!-- VIEW C: STAFF MANAGEMENT -->
       <section id="viewStaff" style="display: none">
         <h1 class="header-title">Staff Management</h1>
+        <button class="primary-btn" onclick="OpenStaffModal()">
+          Add Staff
+        </button>
         <div id="staffContainer" class="cards-container"></div>
       </section>
+
+      <dialog id="staffDialog" class="app-dialog">
+        <h3>New Staff</h3>
+        <button onclick="closeStaffModal()">✕</button>
+        <input type="text" id="staffName" placeholder="Full Name" />
+        <input type="text" id="staffName" placeholder="Full Name" />
+        <span
+          id="staffNameError"
+          style="color: #ef4444; font-size: 12px; display: none"
+        ></span>
+        <input type="text" id="staffSpecialty" placeholder="Specialty" />
+        <input type="text" id="staffPhone" placeholder="Phone" />
+        <button onclick="closeStaffModal()">Cancel</button>
+        <button onclick="SaveStaff()">Save</button>
+      </dialog>
     </main>
 
     <script src="/static/app.js"></script>
