@@ -574,3 +574,158 @@ body {
 .delete-visit-btn:hover {
   background-color: #dc2626;
 }
+
+/* EDIT STAFF DIALOG STYLING */
+
+#editStaffDialog {
+  border: none;
+  border-radius: 12px;
+  padding: 24px;
+  width: 340px;
+  max-width: 90vw;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  margin: auto;
+}
+
+#editStaffDialog::backdrop {
+  background: rgba(0, 0, 0, 0.45);
+}
+
+#editStaffDialog h3 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 1.25rem;
+  color: #0f172a;
+}
+
+#editStaffDialog input[type='text'] {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+#editStaffDialog input[type='text']:focus {
+  border-color: #2563eb;
+}
+
+#editStaffDialog div:last-child {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+#saveEditStaffBtn {
+  background-color: #2563eb;
+  color: #ffffff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+#saveEditStaffBtn:hover {
+  background-color: #1d4ed8;
+}
+
+#cancelStaffEditBtn {
+  background-color: #e2e8f0;
+  color: #334155;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+#cancelStaffEditBtn:hover {
+  background-color: #cbd5e1;
+}
+
+/* ADD STAFF DIALOG STYLING */
+
+#staffDialog {
+  border: none;
+  border-radius: 12px;
+  padding: 24px;
+  width: 340px;
+  max-width: 90vw;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  margin: auto;
+}
+
+#staffDialog::backdrop {
+  background: rgba(0, 0, 0, 0.45);
+}
+
+#staffDialog h3 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-size: 1.25rem;
+  color: #0f172a;
+}
+
+/* Inputs (full name, specialty, phone) */
+#staffDialog input[type='text'] {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+#staffDialog input[type='text']:focus {
+  border-color: #2563eb;
+}
+
+/* Container κουμπιών ενεργειών */
+#staffDialog div:last-child {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+/* Buttons (Save & Cancel) */
+#staffDialog button[onclick*='saveStaff'] {
+  background-color: #2563eb;
+  color: #ffffff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+#staffDialog button[onclick*='saveStaff']:hover {
+  background-color: #1d4ed8;
+}
+
+#staffDialog button[onclick*='closeStaffModal'] {
+  background-color: #e2e8f0;
+  color: #334155;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+#staffDialog button[onclick*='closeStaffModal']:hover {
+  background-color: #cbd5e1;
+}

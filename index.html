@@ -256,8 +256,6 @@
 
       <dialog id="staffDialog" class="app-dialog">
         <h3>New Staff</h3>
-        <button onclick="closeStaffModal()">✕</button>
-        <input type="text" id="staffName" placeholder="Full Name" />
         <input type="text" id="staffName" placeholder="Full Name" />
         <span
           id="staffNameError"
@@ -265,8 +263,8 @@
         ></span>
         <input type="text" id="staffSpecialty" placeholder="Specialty" />
         <input type="text" id="staffPhone" placeholder="Phone" />
-        <button onclick="closeStaffModal()">Cancel</button>
         <button onclick="saveStaff()">Save</button>
+        <button onclick="closeStaffModal()">Cancel</button>
       </dialog>
 
       <dialog id="editStaffDialog">

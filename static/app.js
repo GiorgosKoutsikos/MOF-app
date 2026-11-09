@@ -338,9 +338,11 @@ async function loadStaff() {
             <div class="patient-name">${staff.full_name}</div>
             <div class="patient-meta">Specialty: ${staff.specialty || '-'} | Phone: ${staff.phone || '-'}</div>
           </div>
-          <button class="action-btn" onclick="deleteStaff(${staff.id})">Delete</button>
-          <button class="action-btn" onclick="openEditStaffModal(${staff.id}, '${staff.full_name}', '${staff.specialty || ''}', '${staff.phone || ''}')">Edit</button>
-        `;
+          <div>
+            <button class="action-btn" onclick="openEditStaffModal(${staff.id}, '${staff.full_name}', '${staff.specialty || ''}', '${staff.phone || ''}')">Edit</button>
+            <button class="action-btn" onclick="deleteStaff(${staff.id})">Delete</button>
+          </div>
+          `;
         container.appendChild(card);
       });
     }
