@@ -173,5 +173,14 @@ def delete_staff(staff_id):
     conn.close()
     return result
 
+def update_staff(staff_id: int, full_name: str, specialty: str, phone: str):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("UPDATE staff SET full_name = ?, specialty = ?, phone = ? WHERE id = ?", (full_name, specialty, phone, staff_id))
+
+    conn.commit()
+    conn.close()
+
 if __name__ == "__main__":
     init_db()

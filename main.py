@@ -97,3 +97,10 @@ def delete_staff(staff_id: int):
     if not result:
         raise HTTPException(status_code=404, detail="staff not found")
     return {"message": "Staff deleted successfully"}
+
+@app.put("/api/staff/{staff_id}")
+def update_staff(staff_id: int, staff_data: StaffCreate):
+    result = database.update_staff(staff_id, staff_data.full_name, staff_data.specialty, staff_data.phone)
+    if not result:
+        raise HTTPException(status_code=404, detail="Staff member not found")
+    return {"message": "Staff updated successfully"}
