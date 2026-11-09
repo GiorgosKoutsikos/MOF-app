@@ -90,3 +90,10 @@ class StaffCreate(BaseModel):
 def add_staff(staff: StaffCreate):
     database.add_staff(staff.full_name, staff.specialty, staff.phone)
     return {"message": "Staff added successfully"}
+
+@app.delete("/api/staff/{staff_id}")
+def delete_staff(staff_id: int):
+    result = database.delete_staff(staff_id)
+    if not result:
+        raise HTTPException(status_code=404, detail="staff not found")
+    return {"message": "Staff deleted successfully"}

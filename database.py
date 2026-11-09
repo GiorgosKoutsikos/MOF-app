@@ -162,5 +162,16 @@ def delete_visit(visit_id):
     conn.close()
     return result
 
+def delete_staff(staff_id):
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("DELETE FROM staff WHERE id = ?", (staff_id,))
+
+    conn.commit()
+    result = cursor.rowcount > 0
+    conn.close()
+    return result
+
 if __name__ == "__main__":
     init_db()
