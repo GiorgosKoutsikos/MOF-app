@@ -337,8 +337,8 @@ async function loadStaff() {
           <div>
             <div class="patient-name">${staff.full_name}</div>
             <div class="patient-meta">Specialty: ${staff.specialty || '-'} | Phone: ${staff.phone || '-'}</div>
-            <button class="action-btn" onclick="deleteStaff(${staff.id})">Delete</button>
           </div>
+          <button class="action-btn" onclick="deleteStaff(${staff.id})">Delete</button>
         `;
         container.appendChild(card);
       });
