@@ -180,7 +180,9 @@ def update_staff(staff_id: int, full_name: str, specialty: str, phone: str):
     cursor.execute("UPDATE staff SET full_name = ?, specialty = ?, phone = ? WHERE id = ?", (full_name, specialty, phone, staff_id))
 
     conn.commit()
+    result = cursor.rowcount > 0
     conn.close()
+    return result
 
 if __name__ == "__main__":
     init_db()

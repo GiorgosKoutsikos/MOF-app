@@ -339,6 +339,7 @@ async function loadStaff() {
             <div class="patient-meta">Specialty: ${staff.specialty || '-'} | Phone: ${staff.phone || '-'}</div>
           </div>
           <button class="action-btn" onclick="deleteStaff(${staff.id})">Delete</button>
+          <button class="action-btn" onclick="openEditStaffModal(${staff.id}, '${staff.full_name}', '${staff.specialty || ''}', '${staff.phone || ''}')">Edit</button>
         `;
         container.appendChild(card);
       });
@@ -415,6 +416,63 @@ async function deleteStaff(id) {
     console.error('Error deleting staff:', error);
   }
 }
+
+function openEditStaffModal(id, name, specialty, phone) {
+  document.getElementById('editStaffId').value = id;
+  document.getElementById('editStaffName').value = name;
+  document.getElementById('editStaffSpecialty').value = specialty;
+  document.getElementById('editStaffPhone').value = phone;
+  document.getElementById('editStaffNameError').style.display = 'none';
+
+  document.getElementById('editStaffDialog').showModal();
+}
+
+async function saveEditedStaff() {
+  const id = document.getElementById('editStaffId').value;
+  const name = document.getElementById('editStaffName').value.trim();
+  const specialty = document.getElementById('editStaffSpecialty').value.trim();
+  const phone = document.getElementById('editStaffPhone').value.trim();
+  const nameError = document.getElementById('editStaffNameError');
+
+  if (!name) {
+    if (nameError) {
+      nameError.textContent = 'Please give name';
+      nameError.style.display = 'block';
+    }
+    return;
+  } else {
+    if (nameError) nameError.style.display = 'none';
+  }
+
+  try {
+    const resp = await fetch(`/api/staff/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        full_name: name,
+        specialty: specialty,
+        phone: phone,
+      }),
+    });
+
+    if (resp.ok) {
+      document.getElementById('editStaffDialog').close();
+      loadStaff();
+    } else {
+      alert('Error updating staff member');
+    }
+  } catch (error) {
+    console.error('Error updating staff:', error);
+  }
+}
+
+document
+  .getElementById('saveEditStaffBtn')
+  .addEventListener('click', saveEditedStaff);
+
+document.getElementById('cancelStaffEditBtn').addEventListener('click', () => {
+  document.getElementById('editStaffDialog').close();
+});
 
 window.addEventListener('DOMContentLoaded', () => {
   searchPatients();

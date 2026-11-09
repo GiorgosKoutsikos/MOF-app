@@ -248,7 +248,7 @@
       <!-- VIEW C: STAFF MANAGEMENT -->
       <section id="viewStaff" style="display: none">
         <h1 class="header-title">Staff Management</h1>
-        <button class="primary-btn" onclick="OpenStaffModal()">
+        <button class="primary-btn" onclick="openStaffModal()">
           Add Staff
         </button>
         <div id="staffContainer" class="cards-container"></div>
@@ -266,7 +266,33 @@
         <input type="text" id="staffSpecialty" placeholder="Specialty" />
         <input type="text" id="staffPhone" placeholder="Phone" />
         <button onclick="closeStaffModal()">Cancel</button>
-        <button onclick="SaveStaff()">Save</button>
+        <button onclick="saveStaff()">Save</button>
+      </dialog>
+
+      <dialog id="editStaffDialog">
+        <h3>Edit Staff</h3>
+        <input type="hidden" id="editStaffId" />
+
+        <div>
+          <input type="text" id="editStaffName" placeholder="Full Name" />
+          <span
+            id="editStaffNameError"
+            style="color: #ef4444; font-size: 12px; display: none"
+          ></span>
+        </div>
+
+        <div>
+          <input type="text" id="editStaffSpecialty" placeholder="Specialty" />
+        </div>
+
+        <div>
+          <input type="text" id="editStaffPhone" placeholder="Phone" />
+        </div>
+
+        <div>
+          <button type="button" id="saveEditStaffBtn">Save Changes</button>
+          <button type="button" id="cancelStaffEditBtn">Cancel</button>
+        </div>
       </dialog>
     </main>
 
