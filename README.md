@@ -98,3 +98,11 @@ MOF-app/
 ├── LICENSE             # MIT License
 └── README.md           # Project documentation
 ```
+
+## 🚀 Future Improvements
+
+- [ ] **Authentication & User Roles:** Implement JWT-based login with separate access permissions for receptionists and physiotherapists.
+- [ ] **Appointment & Session Calendar:** Integrate a weekly scheduling grid with availability checks and time-slot conflict detection.
+- [ ] **PDF History Export:** Add downloadable PDF reports summarizing each patient's medical history, diagnoses, and treatment sessions.
+- [ ] **Visual Pain Scale (VAS Score 0–10):** Incorporate a pain-level tracking indicator per visit to monitor patient recovery progress over time.
+- [ ] **Automated Database Backups:** Provide a one-click option in the settings view to export and download a backup of the SQLite database (`mof.db`).
