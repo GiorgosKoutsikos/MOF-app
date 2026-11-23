@@ -49,6 +49,34 @@ This project was built for **learning purposes and portfolio demonstration** to 
 
 ---
 
+## 🧠 What I Learned
+
+- Designing and exposing RESTful API endpoints (`GET`, `POST`, `PUT`, `DELETE`) with **FastAPI** and **Pydantic** schemas.
+- Structuring relational database schemas in **SQLite** with `PRAGMA foreign_keys = ON` and parameterized SQL queries to prevent SQL injection.
+- Building asynchronous client-server communication in **Vanilla JavaScript** using the `Fetch API` and `async/await`.
+- Managing dynamic DOM rendering, real-time input filtering, and native HTML5 `<dialog>` modals without relying on external UI frameworks.
+
+---
+
+## 🚀 Future Improvements
+
+- [ ] **Authentication & User Roles:** Implement JWT-based login with separate access permissions for receptionists and physiotherapists.
+- [ ] **Appointment & Session Calendar:** Integrate a weekly scheduling grid with availability checks and time-slot conflict detection.
+- [ ] **PDF History Export:** Add downloadable PDF reports summarizing each patient's medical history, diagnoses, and treatment sessions.
+- [ ] **Visual Pain Scale (VAS Score 0–10):** Incorporate a pain-level tracking indicator per visit to monitor patient recovery progress over time.
+- [ ] **Automated Database Backups:** Provide a one-click option in the settings view to export and download a backup of the SQLite database (`mof.db`).
+
+---
+
+## 🛠️ Tech Stack & Architecture
+
+- **Backend:** Python 3.10+, FastAPI, Pydantic (schema validation), Uvicorn
+- **Database:** SQLite3 with relational foreign keys (`PRAGMA foreign_keys = ON`)
+- **Frontend:** Vanilla JavaScript (ES6+ Fetch API), HTML5 (`<dialog>` modals), CSS3
+- **Architecture:** Decoupled client-server Single-Page Application (SPA) communicating via JSON REST endpoints.
+
+---
+
 ## 🔌 REST API Endpoints
 
 | Method   | Endpoint                    | Description                                      |
@@ -65,15 +93,6 @@ This project was built for **learning purposes and portfolio demonstration** to 
 | `POST`   | `/api/staff`                | Add a new staff member                           |
 | `PUT`    | `/api/staff/{id}`           | Update staff member details                      |
 | `DELETE` | `/api/staff/{id}`           | Remove a staff member                            |
-
----
-
-## 🧠 What I Learned
-
-- Designing and exposing RESTful API endpoints (`GET`, `POST`, `PUT`, `DELETE`) with **FastAPI** and **Pydantic** schemas.
-- Structuring relational database schemas in **SQLite** with `PRAGMA foreign_keys = ON` and parameterized SQL queries to prevent SQL injection.
-- Building asynchronous client-server communication in **Vanilla JavaScript** using the `Fetch API` and `async/await`.
-- Managing dynamic DOM rendering, real-time input filtering, and native HTML5 `<dialog>` modals without relying on external UI frameworks.
 
 ---
 
@@ -98,11 +117,3 @@ MOF-app/
 ├── LICENSE             # MIT License
 └── README.md           # Project documentation
 ```
-
-## 🚀 Future Improvements
-
-- [ ] **Authentication & User Roles:** Implement JWT-based login with separate access permissions for receptionists and physiotherapists.
-- [ ] **Appointment & Session Calendar:** Integrate a weekly scheduling grid with availability checks and time-slot conflict detection.
-- [ ] **PDF History Export:** Add downloadable PDF reports summarizing each patient's medical history, diagnoses, and treatment sessions.
-- [ ] **Visual Pain Scale (VAS Score 0–10):** Incorporate a pain-level tracking indicator per visit to monitor patient recovery progress over time.
-- [ ] **Automated Database Backups:** Provide a one-click option in the settings view to export and download a backup of the SQLite database (`mof.db`).
